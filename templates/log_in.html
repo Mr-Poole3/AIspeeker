@@ -1,0 +1,77 @@
+<!-- log_in.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css.css') }}">
+
+</head>
+<body>
+<div class="gradient-bg">
+      <svg
+           viewBox="0 0 100vw 100vw"
+           xmlns='http://www.w3.org/2000/svg'
+           class="noiseBg"
+           >
+        <filter id='noiseFilterBg'>
+          <feTurbulence type='fractalNoise' baseFrequency='0.6' stitchTiles='stitch' />
+        </filter>
+        <rect width='100%' height='100%' preserveAspectRatio="xMidYMid meet" filter='url(#noiseFilterBg)' />
+      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" class="svgBlur">
+        <defs>
+          <filter id="goo">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8" result="goo" />
+            <feBlend in="SourceGraphic" in2="goo" />
+          </filter>
+        </defs>
+      </svg>
+      <div class="gradients-container">
+        <div class="g1"></div>
+        <div class="g2"></div>
+        <div class="g3"></div>
+        <div class="g4"></div>
+        <div class="g5"></div>
+        <div class="interactive"></div>
+      </div>
+    </div>
+    <div class="container">
+        <h1>用户登录</h1>
+        <input type="text" id="username_input" placeholder="用户名" required>
+        <input type="password" id="password_input" placeholder="密码" required>
+        <button onclick="login()">登录</button>
+        <button onclick="goToRegister()">注册</button>
+    </div>
+
+    <script>
+        // 登录功能
+        function login() {
+            const username = document.getElementById('username_input').value;
+            const password = document.getElementById('password_input').value;
+
+            fetch('http://127.0.0.1:5000/login', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({username, password})
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    window.location.href = "http://127.0.0.1:5000/robot"; // 登录成功跳转
+                }
+            });
+        }
+
+        // 跳转到注册页面
+        function goToRegister() {
+            window.location.href = "http://127.0.0.1:5000/register";  // 使用 Flask 的绝对路径
+        }
+
+    </script>
+</body>
+</html>

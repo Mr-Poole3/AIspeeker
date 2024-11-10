@@ -1,0 +1,12 @@
+asyncio
+edge-tts
+whisper
+pyaudio
+numpy
+pydub
+noisereduce
+scipy
+wave
+websocket-client
+zhconv
+PyQt5
